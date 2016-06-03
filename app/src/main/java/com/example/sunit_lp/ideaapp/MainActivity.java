@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 intent=new Intent(this,SubmitAd.class);
                 startActivity(intent);
                 break;
-            /*case R.id.item_myads:
+            case R.id.item_myads:
                 if(!(mFragment instanceof MyAdsListFragment))        //check if fragment is already there
                 {
                     mFragment = MyAdsListFragment.newInstance(0);
@@ -220,12 +220,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     getSupportActionBar().setTitle("My Ads");
                     getSupportFragmentManager().beginTransaction().replace(R.id.container, mFragment).addToBackStack(null).commit();
                 }
-                break;*/
+                break;
             case R.id.item_myaccount:
                 intent=new Intent(this,MyAccount.class);
                 startActivity(intent);
                 break;
-            /*case R.id.item_favorites:
+            case R.id.item_favorites:
                 if(!(mFragment instanceof MyFavsListFragment))        //check if fragment is already there
                 {
                     mFragment = MyFavsListFragment.newInstance(0);
@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     getSupportActionBar().setTitle("Favorites");
                     getSupportFragmentManager().beginTransaction().replace(R.id.container, mFragment).addToBackStack(null).commit();
                 }
-                break;*/
+                break;
             case R.id.item_login:
                 intent = new Intent(MainActivity.this, LoginActivity.class);     //MainActivity.this vs MainActivity.class ??
                 startActivity(intent);
