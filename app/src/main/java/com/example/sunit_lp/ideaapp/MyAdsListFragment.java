@@ -2,6 +2,7 @@ package com.example.sunit_lp.ideaapp;
 
 
 import android.app.Dialog;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,6 +34,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 
@@ -90,7 +92,7 @@ public class MyAdsListFragment extends Fragment
         final String temp_mod1=temp_mod.replace('.', ',');
         ref1=FirebaseDatabase.getInstance().getReferenceFromUrl("https://cusexchange.firebaseio.com/" + temp_mod1 + "/IndividualAds");
         System.out.println(ref1.toString());
-        myAds_adapter =new MyAds_Adapter(UserAd.class,R.layout.myads_content_layout,MyAds_Adapter.ViewHolder.class,ref1,getActivity());
+        myAds_adapter =new MyAds_Adapter(UserAd.class,R.layout.myads_content_layout,MyAds_Adapter.ViewHolder.class,(Query)ref1,getActivity());
         mRecycleView.setAdapter(myAds_adapter);
         //defaultAnimation();
         //itemAnimation();
