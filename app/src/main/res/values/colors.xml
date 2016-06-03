@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorBackground">#ba68c8</color>
+    <color name="textColorPrimary">#000000</color>
+    <color name="red">#FFFF0000</color>
+    <color name="colorPrimary">#D44500</color>
+    <color name="colorPrimaryDark">#D44500</color>
+    <color name="colorAccent">#3E3D3C</color>
+    <color name="navy">#2f356b</color>
+    <color name="darktheme1">#B71C1C</color>
+    <color name="darktheme2">#424242</color>
+    <color name="white80">#CCFFFFFF</color>
+    <color name="invisible_blue">#DD3299CC</color>
+    <color name="syracuse_orange">#D44500</color>
+    <color name="syracuse_darkorange">#a13400</color>
+    <color name="syracuse_lightorange">#ff6a22</color>
+    <color name="syracuse_gray1">#3E3D3C</color>
+    <color name="syracuse_gray2">#6F777D</color>
+    <color name="syracuse_gray3">#ADB3B8</color>
+    <color name="syracuse_gray4">#E8EAEB</color>
+    <color name="syracuse_navy">#0D1D37</color>
+    <color name="psu_navy">#000099</color>
+    <color name="syracuse_gray1_invisible">#DD3E3D3C</color>
+    <color name="syracuse_gray2_invisible">#DDADB3B8</color>
+</resources>
+
+

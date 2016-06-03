@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/syracuse_gray1"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:elevation="5dp"
+        android:background="@color/colorPrimary">
+    </android.support.v7.widget.Toolbar>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/imgV"
+        android:src="@drawable/ic_person_white_18dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="95dp"
+        android:layout_below="@+id/toolbar1"
+        android:layout_alignParentStart="true"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_marginRight="25dp"/>
+
+    <LinearLayout
+        android:id="@+id/linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/imgV"
+        android:padding="10dp">
+
+        <!--  Name Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/til1"
+            android:theme="@style/TextLabel_MyAccount"
+            android:layout_marginTop="5dp">
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:hint="Name"
+                android:textColor="@color/syracuse_orange"
+                android:layout_centerHorizontal="true"
+                android:editable="false"/>
+        </android.support.design.widget.TextInputLayout>
+
+
+        <!-- Mobile Number -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/til2"
+            android:theme="@style/TextLabel_MyAccount"
+            android:layout_marginTop="5dp">
+            <EditText
+                android:id="@+id/mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="Mobile Number"
+                android:editable="false"
+                android:textColor="@color/syracuse_orange"
+                android:layout_centerHorizontal="true" />
+        </android.support.design.widget.TextInputLayout>
+
+        <!-- Email Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/til3"
+            android:theme="@style/TextLabel_MyAccount"
+            android:layout_marginTop="5dp">
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="Email Address"
+                android:editable="false"
+                android:layout_below="@+id/mobile"
+                android:textColor="@color/syracuse_orange"
+                android:layout_centerHorizontal="true"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/syracuse_orange"
+            android:text="I would like to receive emails"
+            android:id="@+id/check_email"
+            android:clickable="false"
+            android:layout_marginTop="5dp"/>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/syracuse_orange"
+            android:text="I would like to receive push notifications"
+            android:id="@+id/check_notifications"
+            android:clickable="false"
+            android:layout_marginTop="5dp"/>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save Changes"
+        android:id="@+id/button_save"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/roundedbutton_layered"/>
+
+    <ImageButton
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:background="@drawable/oval"
+        android:id="@+id/change_pic"
+        android:elevation="10dp"
+        android:src="@mipmap/ic_photo_camera_black_24dp"
+        android:visibility="invisible"
+        android:clickable="false"
+        android:layout_above="@+id/linearlayout"
+        android:layout_alignEnd="@+id/imgV"/>
+
+</RelativeLayout>
+

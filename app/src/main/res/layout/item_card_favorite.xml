@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:item_card="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/item_card_favorite"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        item_card:cardElevation="2dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="5dp"
+                android:id="@+id/item_map_iv"
+                android:src="@drawable/detail"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"/>
+
+            <!-- Top Row : weight 1 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="16dp"
+                android:paddingTop="8dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/item_card_tv_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="Framboise Lambic"
+                        android:paddingTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="15sp">
+                    </TextView>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </LinearLayout>
+                </LinearLayout><!-- End of Row -->
+
+                <!-- Rating Bar Row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+
+                    <!-- weight 1-->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="bottom"
+                        android:orientation="vertical">
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+                            <!--<RatingBar-->
+                            <!--android:id="@+id/item_map_rb"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_gravity="bottom"-->
+                            <!--android:clickable="false"-->
+                            <!--android:focusable="false"-->
+                            <!--android:focusableInTouchMode="false"-->
+                            <!--android:isIndicator="false"-->
+                            <!--style="?android:attr/ratingBarStyleSmall"/>-->
+                        </TableRow>
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/icon2_phone" />
+
+                            <TextView
+                                android:id="@+id/item_card_tv_phone"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:gravity="center_vertical"
+                                android:singleLine="true"
+                                android:text="315-870-8906"
+                                android:textColor="#606060" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/icon2_marker" />
+
+                            <TextView
+                                android:id="@+id/item_card_tv_address"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:ems="15"
+                                android:gravity="center_vertical"
+                                android:singleLine="true"
+                                android:text="Beverage"
+                                android:textColor="#606060" />
+                        </TableRow>
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/icon2_marker" />
+
+                            <TextView
+                                android:id="@+id/item_card_tv_time"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:ems="15"
+                                android:gravity="center_vertical"
+                                android:singleLine="true"
+                                android:text="Feb 29th, 2016"
+                                android:textColor="#606060" />
+                        </TableRow>
+                    </LinearLayout>
+
+                    <!--Distance Circle Thingy-->
+                    <RelativeLayout
+                        android:layout_width="60sp"
+                        android:layout_height="60sp"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/item_favorites_iv_delete"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/circleblue" />
+                        <TextView
+                            android:id="@+id/item_card_tv_distance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1km"
+                            android:layout_centerVertical="true"
+                            android:layout_centerHorizontal="true" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout> <!-- End of Rating Row -->>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

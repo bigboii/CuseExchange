@@ -1,0 +1,63 @@
+<resources>
+    <string name="app_name">CuseExchange</string>
+    <!-- <string name="abtme">About Me</string>
+    <string name="task1">Task 2</string>
+    <string name="task2">Task 3</string>-->
+    <string name="drawer_open">Drawer Opened</string>
+    <string name="drawer_close">Drawer Closed</string>
+    <string name="subcat_default">Select Category</string>
+    <!--<string-array name="category_array">
+        <item>Books</item>
+        <item>Household</item>
+        <item>Housing</item>
+        <item>Events</item>
+    </string-array>-->
+    <string-array name="category_sortby">
+        <item>Date (Recent, Default)</item>
+        <item>Date (Oldest)</item>
+        <item>Price (Ascending)</item>
+        <item>Price (Descending)</item>
+    </string-array>
+    <string-array name="categories_array">
+        <item>Select Category</item>
+        <item>Books</item>
+        <item>Housing</item>
+        <item>Home Accessories</item>
+        <item>Valuables</item>
+    </string-array>
+    <string-array name="subcategories_Books">
+        <item>Books</item>
+        <item>e-Books</item>
+        <item>Textbooks</item>
+        <item>Magazines</item>
+    </string-array>
+    <string-array name="subcategories_Housing">
+        <item>Studio</item>
+        <item>1 Bedroom</item>
+        <item>2 Bedroom</item>
+        <item>3+ Bedroom</item>
+        <item>Sublets</item>
+        <item>Roommates</item>
+        <item>Apartment Complexes</item>
+    </string-array>
+    <string-array name="subcategories_HomeAccessories">
+        <item>Kitchen-Dining</item>
+        <item>Appliances</item>
+        <item>Furniture</item>
+        <item>Bedding + Bath</item>
+    </string-array>
+    <string-array name="subcategories_Valuables">
+        <item>Accessories</item>
+        <item>Tickets</item>
+        <item>Vehicles</item>
+        <item>Electronics</item>
+        <item>Clothing</item>
+        <item>Pets</item>
+        <item>Jewelery</item>
+        <item>Instruments</item>
+        <item>Video Games</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

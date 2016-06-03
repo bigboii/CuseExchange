@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle" >
+            <corners android:radius="5dp" />
+            <gradient
+                android:angle="90"
+                android:centerColor="@color/syracuse_lightorange"
+                android:centerY="0.05"
+                android:endColor="@color/syracuse_lightorange"
+                android:startColor="@color/syracuse_lightorange" />
+        </shape>
+    </item>
+    <item>
+        <inset
+            android:drawable="@drawable/roundedbutton"
+            android:insetBottom="5dp" />
+    </item>
+</layer-list>

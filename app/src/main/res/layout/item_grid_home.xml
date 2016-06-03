@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:item_card="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_card_favorite"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    item_card:cardElevation="2dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp">
+    <LinearLayout
+        android:id="@+id/item_grid_home_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/item_grid_home_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:tint="@color/syracuse_orange"/>
+        <TextView
+            android:id="@+id/item_grid_home_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello"
+            android:layout_gravity="bottom|center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/syracuse_orange"
+            android:textStyle="bold"
+            android:textSize="14dp"/>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

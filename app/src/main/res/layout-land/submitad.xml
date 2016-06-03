@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillViewport="true">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:background="@color/syracuse_gray1">
+
+        <!--
+        <ImageButton
+            android:layout_marginTop="5dp"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/camera"
+            android:src="@drawable/ic_photo_camera"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+        -->
+        <ImageButton
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/oval1"
+            android:id="@+id/fab_back"
+            android:elevation="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:src="@mipmap/ic_arrow_back_white_24dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true" />
+
+        <ImageButton
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/oval"
+            android:id="@+id/fab_camera"
+            android:elevation="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:src="@mipmap/ic_photo_camera_white_24dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true" />
+
+        <!-- Top Sliding Banners -->
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:id="@+id/pager_layout">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="fill_parent"
+                android:layout_height="200dp"
+                android:layout_alignParentTop="true"/>
+
+            <com.viewpagerindicator.CirclePageIndicator
+                android:id="@+id/indicator"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/pager"
+                android:layout_centerHorizontal="true"
+                android:gravity="bottom"
+                android:padding="10dip"
+                app:centered="true"
+                app:fillColor="@color/syracuse_navy"
+                app:pageColor="@color/syracuse_gray1"
+                app:snap="false" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@color/syracuse_gray1"
+            android:layout_below="@+id/pager_layout">
+            <!-- Ad input data stuff-->
+            <!--
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add Photos to increase your chances"
+                android:textAlignment="center"
+                android:id="@+id/textdisplay"/>   -->
+            <Spinner
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/categories"
+                android:popupBackground="@android:color/transparent"/>
+
+            <Spinner
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/subcategories"
+                android:layout_below="@+id/categories"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/til1"
+                android:layout_below="@+id/subcategories"
+                android:theme="@style/TextLabel">
+                <EditText
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/addtitle"
+                    android:hint="Add Title"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/til2"
+                android:layout_below="@+id/til1"
+                android:theme="@style/TextLabel">
+                <EditText
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/describe"
+                    android:hint="Add Description"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/til3"
+                android:layout_below="@+id/til2"
+                android:theme="@style/TextLabel">
+                <EditText
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/addinfo"
+                    android:hint="Add your address"
+                    android:visibility="gone"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/til4"
+                android:layout_below="@+id/til3"
+                android:theme="@style/TextLabel">
+                <EditText
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/expPrice"
+                    android:inputType="numberDecimal"
+                    android:hint="Expected Price"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView"
+                android:layout_below="@+id/button_submitad"
+                android:layout_alignParentLeft="true"
+                />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit"
+                android:id="@+id/button_submitad"
+                android:background="@drawable/roundedbutton_layered"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginRight="6dp"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

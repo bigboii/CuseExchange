@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/syracuse_gray1"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+    <ImageButton
+        android:layout_marginTop="5dp"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/camera"
+        android:src="@drawable/ic_photo_camera"
+        android:layout_below="@+id/toolbar9"
+        android:layout_centerHorizontal="true" />-->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:id="@+id/displayImage"
+        android:src="@drawable/img4"
+        android:layout_alignParentStart="true" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/til1"
+        android:layout_below="@+id/displayImage"
+        android:theme="@style/TextLabel"
+        android:layout_marginTop="10dp">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Category"
+            android:id="@+id/textcategory"
+            android:imeOptions="actionDone"
+            android:singleLine="true"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/til2"
+        android:layout_below="@+id/til1"
+        android:theme="@style/TextLabel">
+        <EditText
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="SubCategory"
+            android:id="@+id/textsubcategory"
+            android:imeOptions="actionDone"
+            android:singleLine="true"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/til3"
+        android:layout_below="@+id/til2"
+        android:theme="@style/TextLabel">
+        <EditText
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Show Title"
+            android:id="@+id/displaytitle"
+            android:imeOptions="actionDone"
+            android:singleLine="true"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/til4"
+        android:layout_below="@+id/til3"
+        android:theme="@style/TextLabel">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/updatedescribe"
+            android:hint="Update Description"
+            android:imeOptions="actionDone"
+            android:singleLine="true"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/til5"
+        android:layout_below="@+id/til4"
+        android:theme="@style/TextLabel">
+        <EditText
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addinfo"
+            android:hint="Show your address"
+            android:visibility="gone"
+            android:imeOptions="actionDone"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/til6"
+        android:layout_below="@+id/til5"
+        android:theme="@style/TextLabel">
+        <EditText
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/updPrice"
+            android:inputType="numberDecimal"
+            android:hint="Update Price"
+            android:imeOptions="actionDone"
+            android:singleLine="true"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update"
+        android:id="@+id/button_editad"
+        android:layout_below="@+id/til6"
+        android:background="@drawable/roundedbutton_layered"/>
+</RelativeLayout>

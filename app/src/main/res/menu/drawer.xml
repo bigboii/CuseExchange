@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+
+
+        <item
+            android:id="@+id/item_home"
+            android:checked="false"
+            android:icon="@drawable/ic_home_white_18dp"
+            android:title="Home"/>
+
+        <item
+            android:id="@+id/item_submit"
+            android:checked="false"
+            android:icon="@drawable/ic_create_white"
+            android:title="Submit an Ad"/>
+
+        <item
+            android:id="@+id/item_myads"
+            android:checked="false"
+            android:icon="@drawable/ic_whatshot_white_18dp"
+            android:title="My Ads"/>
+
+        <item
+            android:id="@+id/item_myaccount"
+            android:checked="false"
+            android:icon="@drawable/ic_settings_white_18dp"
+            android:title="My Account"/>
+
+        <item
+            android:id="@+id/item_favorites"
+            android:checked="false"
+            android:icon="@drawable/ic_favorite_border_white_18dp"
+            android:title="Favorites"/>
+
+        <item
+            android:id="@+id/item_login"
+            android:checked="false"
+            android:icon="@drawable/ic_person_white_18dp"
+            android:title="Login"/>
+
+        <item
+            android:id="@+id/item_logout"
+            android:checked="false"
+            android:icon="@drawable/ic_exit_to_app_white"
+            android:title="Logout"/>
+
+        <item
+            android:id="@+id/item_contactus"
+            android:checked="false"
+            android:icon="@drawable/ic_perm_phone_msg_white_18dp"
+            android:title="Contact Us"/>
+
+        <item
+            android:id="@+id/item_help"
+            android:checked="false"
+            android:icon="@drawable/ic_help_white"
+            android:title="Help"/>
+    </group>
+
+</menu>

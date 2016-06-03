@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Task1">
+    <item
+    android:id="@+id/action_create"
+    app:showAsAction="always"
+    android:icon="@drawable/ic_create_white"
+    android:title="Edit"></item>
+    <item
+        android:id="@+id/action_cancel"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_close_white_24dp"
+        android:title="Cancel"></item>
+   <!-- <item
+        android:id="@+id/action_back"
+        android:
+        app:showAsAction="always"
+        android:icon="@mipmap/ic_arrow_back_white_24dp"
+        android:title="Cancel"></item>-->
+
+</menu>
