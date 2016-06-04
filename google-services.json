@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "914826458078",
+    "firebase_url": "https://cusexchange.firebaseio.com",
+    "project_id": "project-7354348151753711110",
+    "storage_bucket": "project-7354348151753711110.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:914826458078:android:41eb77c500b6bf2c",
+        "android_client_info": {
+          "package_name": "com.example.sunit_lp.ideaapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "914826458078-4kk44sbt8jn3d8civjrv01nsm3qrjl2e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClXS8FMgOkChrvXKr2Mu3TNZG4DBoJAeo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
