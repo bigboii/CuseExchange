@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -55,6 +56,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -62,6 +65,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.io.ByteArrayOutputStream;
@@ -360,37 +365,66 @@ public class SubmitAd extends AppCompatActivity implements AdapterView.OnItemSel
             userAd.setUrl_img(profileImageFile);
             //userAd.setDate();
         }*/
+        userAd.setDate(postDate);
         while(bitmapList.size()<5)
         {
             bitmapList.add(null);
         }
+        DatabaseReference tempref=MainActivity.firebaseRef.child(temp_mod1).child("IndividualAds").push()/*.setValue(userAd)*/;
+        //Create Firebaase Storage Reference this url is unique
+        StorageReference storageReference=MainActivity.storage.getReferenceFromUrl("gs://project-7354348151753711110.appspot.com");
+        //Pointing to the testing folder
+        StorageReference imagesRef=storageReference.child(userAd.getEmail());
+        StorageReference imagesRef2=imagesRef.child("IndividualAds");
+        StorageReference imagesRef1=imagesRef2.child(tempref.getKey());
         for(int i=0;i<4;i++) {
+            //Pointing to the image
+            String filename="Url_img"+i;
             if (bitmapList.get(i) != null) {
                 //Bitmap bmp = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+                StorageReference spaceRef=imagesRef1.child(filename);
+                String path=userAd.getEmail()+"/IndividualAds/"+tempref.getKey()+"/"+filename;
+
                 Bitmap bmp = bitmapList.get(i);
                 ByteArrayOutputStream bYtE = new ByteArrayOutputStream();
 
                 Log.d("ImageCompression", "Before bmp" + bmp.getByteCount());
-                bmp.compress(Bitmap.CompressFormat.JPEG, 10, bYtE);
+                bmp.compress(Bitmap.CompressFormat.JPEG, 100, bYtE);
                 bmp.recycle();
                 Log.d("ImageCompression", "AFTER bmp: " + bmp.getByteCount());
                 Log.d("ImageCompression", "AFTER bYtE: " + bYtE.size());
 
                 byte[] byteArray = bYtE.toByteArray();
-                String profileImageFile = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                //String profileImageFile = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                //Uploading the file to the FileStorage
+                UploadTask uploadTask = spaceRef.putBytes(byteArray);
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                        System.out.println("The url for the image is "+downloadUrl);
+                        //userReg.setProfile_pic(downloadUrl.toString());
+                    }
+                });
                 switch(i)
                 {
                     case 0:
-                        userAd.setUrl_img(profileImageFile);
+                        userAd.setUrl_img(path);
                         break;
                     case 1:
-                        userAd.setUrl_img1(profileImageFile);
+                        userAd.setUrl_img1(path);
                         break;
                     case 2:
-                        userAd.setUrl_img2(profileImageFile);
+                        userAd.setUrl_img2(path);
                         break;
                     case 3:
-                        userAd.setUrl_img3(profileImageFile);
+                        userAd.setUrl_img3(path);
                         break;
                 }
                 //userAd.setDate();
@@ -412,9 +446,6 @@ public class SubmitAd extends AppCompatActivity implements AdapterView.OnItemSel
                 }
             }
         }
-        userAd.setDate(postDate);
-        DatabaseReference tempref=MainActivity.firebaseRef.child(temp_mod1).child("IndividualAds").push()/*.setValue(userAd)*/;
-
         //get key
         userAd.setKey(tempref.getKey());
         tempref.setValue(userAd);

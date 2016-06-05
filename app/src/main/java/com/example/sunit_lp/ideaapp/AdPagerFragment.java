@@ -174,13 +174,38 @@ public class AdPagerFragment extends Fragment
         //Setting image
         if (!(userAd.getUrl_img().isEmpty()))
         {
-            byte[] imageAsBytes = Base64.decode(userAd.getUrl_img(), 0);
+            /*byte[] imageAsBytes = Base64.decode(userAd.getUrl_img(), 0);
             Bitmap bmp_pic = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
 
             //byte[] imageAsBytes = Base64.decode(userReg.getProfile_pic(), 0);
             //Bitmap bmp_pic = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
-            Bitmap bt=Bitmap.createScaledBitmap(bmp_pic, bmp_pic.getWidth(), bmp_pic.getHeight(), false);
-            ivDetail.setImageBitmap(bt);
+            Bitmap bt=Bitmap.createScaledBitmap(bmp_pic, bmp_pic.getWidth(), bmp_pic.getHeight(), false);*/
+            try {
+                String encodedpath= URLEncoder.encode(userAd.getUrl_img(), "utf-8");
+                System.out.println("Encoded String "+encodedpath);
+                // Create a reference from an HTTPS URL
+                // Note that in the URL, characters are URL escaped!
+                StorageReference httpsReference = MainActivity.storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/project-7354348151753711110.appspot.com/o/"+encodedpath);
+                //Download the file now
+                final long ONE_MEGABYTE=1024*1024;
+                httpsReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        //Data for "image" is returns, use this as needed
+                        Bitmap bmp_pic = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        Bitmap bt = Bitmap.createScaledBitmap(bmp_pic, bmp_pic.getWidth(), bmp_pic.getHeight(), false);
+                        ivDetail.setImageBitmap(bt);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Handle any errors
+                    }
+                });
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            //ivDetail.setImageBitmap(bt);
         }
 
         tvPrice.setTransitionName((String) userAd.getPrice() + "_tv2");           //for shared element transition

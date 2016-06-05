@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
@@ -21,9 +22,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.Query;
 //import com.google.firebase.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 /**
  * Updated by Sunit on 3/20/2016.
@@ -205,17 +212,42 @@ public class MyFavs_Adapter extends FirebaseRecyclerAdapter<UserAd,MyFavs_Adapte
     }
 
     @Override
-    protected void populateViewHolder(ViewHolder viewHolder, UserAd userAd, int i) {
+    protected void populateViewHolder(final ViewHolder viewHolder, UserAd userAd, int i) {
         //System.out.println(userAd.getTitle().toString());
         //Log.d("MyAds_Adapter" , userAd.getTitle().toString() +"    " + i);
         viewHolder.Ad_name.setText(userAd.getTitle().toString());
         viewHolder.Ad_desc.setText(userAd.getDescription().toString());
         viewHolder.Ad_price.setText(userAd.getPrice().toString() + "$");
     if(!userAd.getUrl_img().isEmpty()) {
-        byte[] imageAsBytes = Base64.decode(userAd.getUrl_img(), 0);
+        /*byte[] imageAsBytes = Base64.decode(userAd.getUrl_img(), 0);
         Bitmap bmp_pic = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
-        Bitmap bt=Bitmap.createScaledBitmap(bmp_pic, bmp_pic.getWidth(), bmp_pic.getHeight(), false);
-        viewHolder.Ad_img.setImageBitmap(bt);
+        Bitmap bt=Bitmap.createScaledBitmap(bmp_pic, bmp_pic.getWidth(), bmp_pic.getHeight(), false);*/
+        try {
+            String encodedpath= URLEncoder.encode(userAd.getUrl_img(), "utf-8");
+            System.out.println("Encoded String"+encodedpath);
+            // Create a reference from an HTTPS URL
+            // Note that in the URL, characters are URL escaped!
+            StorageReference httpsReference = MainActivity.storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/project-7354348151753711110.appspot.com/o/"+encodedpath);
+            //Download the file now
+            final long ONE_MEGABYTE=1024*1024;
+            httpsReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    //Data for "image" is returns, use this as needed
+                    Bitmap bmp_pic = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    Bitmap bt = Bitmap.createScaledBitmap(bmp_pic, bmp_pic.getWidth(), bmp_pic.getHeight(), false);
+                    viewHolder.Ad_img.setImageBitmap(bt);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    //Handle any errors
+                }
+            });
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        //viewHolder.Ad_img.setImageBitmap(bt);
     }
         //Picasso.with(context).load(userAd.getUrl_img()).into(viewHolder.Ad_img);
 
