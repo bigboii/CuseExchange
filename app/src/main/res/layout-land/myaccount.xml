@@ -118,6 +118,8 @@
             android:layout_height="wrap_content"
             android:text="Save Changes"
             android:id="@+id/button_save"
+            android:visibility="invisible"
+            android:clickable="false"
             android:background="@drawable/roundedbutton_layered"/>
 
         <ImageButton

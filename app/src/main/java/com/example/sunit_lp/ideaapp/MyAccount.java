@@ -21,12 +21,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,15 +39,22 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,7 +67,7 @@ public class MyAccount extends AppCompatActivity {
     Toolbar mToolBar;
     private static final int CAMERA_REQUEST = 1888;
     private static final int CAMERA_CROP=2;
-    private static final int GALLERY_PICTURE = 1;
+    static final int GALLERY_PICTURE = 1;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     android.support.v7.app.ActionBar actionBar;
     MenuItem action_can;
@@ -77,7 +86,11 @@ public class MyAccount extends AppCompatActivity {
     String temp_mobile;
     boolean status_email;
     boolean status_notifications;
-    Uri picUri;
+    //Uri picUri;
+    //Declare Firebase Storage to access globally
+    //FirebaseStorage storage;
+    //Declare the download URI to store the URI of the uploaded image
+    Uri downloadUrl;
     Bitmap bitmap;
     String selectedImagePath;
     private static String[] PERMISSIONS_STORAGE = {
@@ -114,6 +127,8 @@ public class MyAccount extends AppCompatActivity {
         String temp_mod=address.getText().toString();
         final String temp_mod1=temp_mod.replace('.', ',');
         System.out.println(temp_mod1);
+        //Setup the Firebase Storage -it is the first step in accessing the storage bucket
+        //storage = FirebaseStorage.getInstance();
 
         MainActivity.firebaseRef.child(temp_mod1).child("Personal_Info").addValueEventListener(new ValueEventListener() {
             @Override
@@ -123,10 +138,42 @@ public class MyAccount extends AppCompatActivity {
                 name.setText(userReg.getName());
                 mobile.setText(userReg.getMobile());
                 if(!userReg.getProfile_pic().isEmpty()) {
-                    byte[] imageAsBytes = Base64.decode(userReg.getProfile_pic(), 0);
+                    /*byte[] imageAsBytes = Base64.decode(userReg.getProfile_pic(), 0);
                     Bitmap bmp_pic = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
-                    Bitmap bt = Bitmap.createScaledBitmap(bmp_pic, bmp_pic.getWidth(), bmp_pic.getHeight(), false);
-                    profile_img.setImageBitmap(bt);
+                    Bitmap bt = Bitmap.createScaledBitmap(bmp_pic, bmp_pic.getWidth(), bmp_pic.getHeight(), false);*/
+                    //Downloading the images from FirebaseStorage
+                    /*//Create a storage reference from our app
+                    StorageReference storageReference=storage.getReferenceFromUrl("gs://project-7354348151753711110.appspot.com");
+                    //Create a reference with an initial file path and name
+                    StorageReference pathReference=storageReference.child(userReg.getProfile_pic());
+                    //Create a reference to a file from a Google Cloud Storage URI
+                    StorageReference gsReference = storage.getReferenceFromUrl("gs://project-7354348151753711110.appspot.com" + userReg.getProfile_pic());*/
+                    try {
+                        String encodedpath= URLEncoder.encode(userReg.getProfile_pic(),"utf-8");
+                        System.out.println("Encoded String"+encodedpath);
+                    // Create a reference from an HTTPS URL
+                    // Note that in the URL, characters are URL escaped!
+                    StorageReference httpsReference = MainActivity.storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/project-7354348151753711110.appspot.com/o/"+encodedpath);
+                    //Download the file now
+                    final long ONE_MEGABYTE=1024*1024;
+                    httpsReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                        @Override
+                        public void onSuccess(byte[] bytes) {
+                            //Data for "image" is returns, use this as needed
+                            Bitmap bmp_pic = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            Bitmap bt = Bitmap.createScaledBitmap(bmp_pic, bmp_pic.getWidth(), bmp_pic.getHeight(), false);
+                            profile_img.setImageBitmap(bt);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            //Handle any errors
+                        }
+                    });
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    //profile_img.setImageBitmap(bt);
                 }
                 temp_mobile = mobile.getText().toString();
             }
@@ -166,6 +213,7 @@ public class MyAccount extends AppCompatActivity {
         check_email.setClickable(false);
         check_notifications.setClickable(false);
         change_img.setClickable(false);
+        //button_save.setClickable(false);
         if(check_notifications.isChecked())
             status_notifications=true;
         else
@@ -203,13 +251,43 @@ public class MyAccount extends AppCompatActivity {
                         userReg.setMobile(mobile.getText().toString());
                         //Added for saving images in Firebase
                         //Bitmap bmp =  BitmapFactory.decodeResource(getResources(), profile_img.getImageAlpha());//your image
+                        //Create Firebaase Storage Reference this url is unique
+                        StorageReference storageReference=MainActivity.storage.getReferenceFromUrl("gs://project-7354348151753711110.appspot.com");
+                        //Pointing to the testing folder
+                        StorageReference imagesRef=storageReference.child(userReg.getEmail());
+                        //Pointing to the image
+                        String filename="profile_image.jpg";
+                        StorageReference spaceRef=imagesRef.child(filename);
+                        //Get the path "<email>/profile_image.jpg"-- The below add the / character before the filename which creates issues in encoding
+                        //String path=spaceRef.getPath();
+                        String path=userReg.getEmail()+"/"+filename;
+                        //Get file name "profile_image.jpg"
+                        //String name=spaceRef.getName();
+                        //Points to the email folder
+                        //imagesRef=spaceRef.getParent();
                         Bitmap bmp = ((BitmapDrawable) profile_img.getDrawable()).getBitmap();
                         ByteArrayOutputStream bYtE = new ByteArrayOutputStream();
                         bmp.compress(Bitmap.CompressFormat.JPEG, 100, bYtE);
                         bmp.recycle();
                         byte[] byteArray = bYtE.toByteArray();
-                        String profileImageFile = Base64.encodeToString(byteArray, Base64.DEFAULT);
-                        userReg.setProfile_pic(profileImageFile);
+                        //Uploading the file to the FileStorage
+                        UploadTask uploadTask = spaceRef.putBytes(byteArray);
+                        uploadTask.addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle unsuccessful uploads
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                System.out.println("The url for the image is "+downloadUrl);
+                                //userReg.setProfile_pic(downloadUrl.toString());
+                            }
+                        });
+                        //String profileImageFile = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                        userReg.setProfile_pic(path);
                         MainActivity.firebaseRef.child(temp_mod1).child("Personal_Info").setValue(userReg);
                         Toast.makeText(MyAccount.this, "Profile Information Updated Successfully!", Toast.LENGTH_SHORT).show();
                         finish();
@@ -478,18 +556,20 @@ public class MyAccount extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        int id=item.getItemId();
+        int id= item.getItemId();
         switch (id){
             case R.id.action_create:
                 action_cre=m.findItem(R.id.action_create);
                 action_cre.setVisible(false);
-                action_can=m.findItem(R.id.action_cancel);
+                action_can = m.findItem(R.id.action_cancel);
                 action_can.setVisible(true);
                 change_img.setVisibility(View.VISIBLE);
                 mobile.setEnabled(true);
                 check_email.setClickable(true);
                 check_notifications.setClickable(true);
                 change_img.setClickable(true);
+                button_save.setClickable(true);
+                button_save.setVisibility(View.VISIBLE);
                 return false;
             case R.id.action_cancel:
                 action_can=m.findItem(R.id.action_cancel);
@@ -497,6 +577,7 @@ public class MyAccount extends AppCompatActivity {
                 action_cre = m.findItem(R.id.action_create);
                 action_cre.setVisible(true);
                 change_img.setVisibility(View.INVISIBLE);
+                button_save.setVisibility(View.INVISIBLE);
                 mobile.setText(temp_mobile);
                 mobile.setEnabled(false);
                 check_email.setChecked(status_email);
@@ -504,6 +585,7 @@ public class MyAccount extends AppCompatActivity {
                 check_email.setClickable(false);
                 check_notifications.setClickable(false);
                 change_img.setClickable(false);
+                button_save.setClickable(false);
                 return false;
             case android.R.id.home:
                 onBackPressed();

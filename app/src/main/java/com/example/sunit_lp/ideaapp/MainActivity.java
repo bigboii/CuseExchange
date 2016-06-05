@@ -1,11 +1,13 @@
 package com.example.sunit_lp.ideaapp;
 
+import android.*;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
@@ -15,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -36,6 +39,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -43,10 +48,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -77,11 +86,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     String sortFilter;
     float priceFilter;
 
-
+    //Declare Firebase Storage to access globally
+    static FirebaseStorage storage;
     //For Coordinator Layout
     AppBarLayout appBarLayout;
 
 
+    /*//Adding Permission on the startup
+    private static String[] PERMISSIONS_STORAGE = {
+            android.Manifest.permission.READ_EXTERNAL_STORAGE,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+*/
 
     //OnBackPressed interface
     OnBackPressedListener onBackPressedListener;
@@ -104,6 +120,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView =(NavigationView)findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
         headerView=(View) LayoutInflater.from(this).inflate(R.layout.header_blank, null);
+        //Setup the Firebase Storage -it is the first step in accessing the storage bucket
+        storage = FirebaseStorage.getInstance();
         FirebaseAuth.getInstance().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull final FirebaseAuth authData) {
@@ -127,9 +145,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             UserReg userReg = dataSnapshot.getValue(UserReg.class);
                             //Setting up values for account page
                             header_name.setText(userReg.getName());
-                            byte[] imageAsBytes = Base64.decode(userReg.getProfile_pic(), Base64.DEFAULT);
-                            Bitmap bmp_pic = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
-                            header_profile.setImageBitmap(bmp_pic);
+                            //byte[] imageAsBytes = Base64.decode(userReg.getProfile_pic(), Base64.DEFAULT);
+                            /*//Create a storage reference from our app
+                            StorageReference storageReference=storage.getReferenceFromUrl("gs://project-7354348151753711110.appspot.com");
+                            //Create a reference with an initial file path and name
+                            StorageReference pathReference=storageReference.child(userReg.getProfile_pic());
+                            //Create a reference to a file from a Google Cloud Storage URI
+                            StorageReference gsReference = storage.getReferenceFromUrl("gs://project-7354348151753711110.appspot.com" + userReg.getProfile_pic());*/
+                            try {
+                                String encodedpath= URLEncoder.encode(userReg.getProfile_pic(), "utf-8");
+                                System.out.println("Encoded String"+encodedpath);
+                                // Create a reference from an HTTPS URL
+                                // Note that in the URL, characters are URL escaped!
+                                StorageReference httpsReference = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/project-7354348151753711110.appspot.com/o/"+encodedpath);
+                                //Download the file now
+                                final long ONE_MEGABYTE=1024*1024;
+                                httpsReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                    @Override
+                                    public void onSuccess(byte[] bytes) {
+                                        //Data for "image" is returns, use this as needed
+                                        Bitmap bmp_pic = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                        Bitmap bt = Bitmap.createScaledBitmap(bmp_pic, bmp_pic.getWidth(), bmp_pic.getHeight(), false);
+                                        header_profile.setImageBitmap(bt);
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        //Handle any errors
+                                    }
+                                });
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                            //Bitmap bmp_pic = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
+                            //header_profile.setImageBitmap(bmp_pic);
                         }
 
                         @Override
@@ -187,6 +236,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //mFragment = getSupportFragmentManager().getFragment(savedInstanceState, "mFragment");
             getSupportFragmentManager().beginTransaction().replace(R.id.container, mFragment).commit();
         }
+        //Added Permission on startup of the application
+        /*int hasGalleryPermission = ActivityCompat.checkSelfPermission(getApplicationContext(), String.valueOf(PERMISSIONS_STORAGE));
+        if (hasGalleryPermission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, PERMISSIONS_STORAGE, MyAccount.GALLERY_PICTURE);
+            return;
+        }*/
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
