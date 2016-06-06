@@ -136,6 +136,26 @@ public class MyAdsListFragment extends Fragment
                             case R.id.ad_delete:
                                 UserAd objDel = myAds_adapter.getItem(position);
                                 System.out.println(ref1.child(objDel.getKey()));
+                                //Deleting from the Firebase Storage
+                                // Create a storage reference from our app
+                                StorageReference storageReference=MainActivity.storage.getReferenceFromUrl("gs://project-7354348151753711110.appspot.com");
+                                // Create a reference to the file to delete
+                                StorageReference imagesRef=storageReference.child(objDel.getEmail());
+                                StorageReference imagesRef1=imagesRef.child("IndividualAds");
+                                StorageReference imagesRef12=imagesRef1.child(objDel.getKey());
+                                // Delete the file
+                                imagesRef12.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        //File deleted successfully
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        //Uh-oh, an error occurred
+                                    }
+                                });
+                                //Deleting from the Firebase Database
                                 ref1.child(objDel.getKey()).removeValue();
                                 return true;
                             case R.id.ad_edit:
