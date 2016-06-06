@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     navigationView.getMenu().findItem(R.id.item_login).setVisible(false);
                     navigationView.getMenu().findItem(R.id.item_logout).setVisible(true);
                     navigationView.getMenu().findItem(R.id.item_favorites).setVisible(true);
+                    navigationView.getMenu().findItem(R.id.item_notifications).setVisible(true);
                     navigationView.getMenu().findItem(R.id.item_myaccount).setVisible(true);
                     navigationView.getMenu().findItem(R.id.item_myads).setVisible(true);
                 } else {
@@ -201,6 +202,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     navigationView.getMenu().findItem(R.id.item_login).setVisible(true);
                     navigationView.getMenu().findItem(R.id.item_logout).setVisible(false);
                     navigationView.getMenu().findItem(R.id.item_favorites).setVisible(false);
+                    navigationView.getMenu().findItem(R.id.item_notifications).setVisible(false);
                     navigationView.getMenu().findItem(R.id.item_myaccount).setVisible(false);
                     navigationView.getMenu().findItem(R.id.item_myads).setVisible(false);
                 }
@@ -290,6 +292,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     getSupportFragmentManager().beginTransaction().replace(R.id.container, mFragment).addToBackStack(null).commit();
                 }
                 break;
+            case R.id.item_notifications:
+                if(!(mFragment instanceof MyNotificationsListFragment))        //check if fragment is already there
+                {
+                    mFragment = MyNotificationsListFragment.newInstance(0);
+                    toolbar_title=getSupportActionBar().getTitle().toString();
+                    getSupportActionBar().setTitle("Notifications");
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, mFragment).addToBackStack(null).commit();
+                }
+                break;
             case R.id.item_login:
                 intent = new Intent(MainActivity.this, LoginActivity.class);     //MainActivity.this vs MainActivity.class ??
                 startActivity(intent);
@@ -303,6 +314,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 navigationView.getMenu().findItem(R.id.item_login).setVisible(true);
                 navigationView.getMenu().findItem(R.id.item_logout).setVisible(false);
                 navigationView.getMenu().findItem(R.id.item_favorites).setVisible(false);
+                navigationView.getMenu().findItem(R.id.item_notifications).setVisible(false);
                 navigationView.getMenu().findItem(R.id.item_myaccount).setVisible(false);
                 navigationView.getMenu().findItem(R.id.item_myads).setVisible(false);
                 if(!(mFragment instanceof HomeFragment))        //check if fragment is already there
